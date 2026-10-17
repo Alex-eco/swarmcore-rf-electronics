@@ -1,0 +1,41 @@
+name: SwarmCore Bounty Hunter
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 */2 * * *"
+
+permissions:
+  contents: read
+
+jobs:
+  scan-and-analyze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install
+        run: npm install
+
+      - name: Run SwarmCore
+        env:
+          SUPERTEAM_AGENT_API_KEY: ${{ secrets.SUPERTEAM_AGENT_API_KEY }}
+          SUPERTEAM_CLAIM_CODE: ${{ secrets.SUPERTEAM_CLAIM_CODE }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_MODEL: gemini-3.8-flash
+        run: npm run agent:run
+
+      - name: Upload SwarmCore report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: swarmcore-report
+          path: artifacts/swarmcore-report.json
+          if-no-files-found: ignore
