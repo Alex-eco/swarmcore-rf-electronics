@@ -1,0 +1,19 @@
+name: SwarmCore Daily Telegram Report
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/swarmcore-telegram-daily.yml"
+  schedule:
+    - cron: "0 6 * * *"
+
+permissions:
+  contents: read
+
+jobs:
+  telegram-report:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Workflow test
+        run: echo "SwarmCore Telegram workflow is running"
