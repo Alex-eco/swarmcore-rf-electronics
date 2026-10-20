@@ -1,5 +1,7 @@
 "use client";
 
+import RFWorkflowDemo from "./components/RFWorkflowDemo";
+
 const modules = [
   { number: "01", status: "PILOT-READY", statusClass: "border-emerald-300/25 bg-emerald-300/[.06] text-emerald-200", title: "Scientific Research & Technical Intelligence", body: "Find and synthesize relevant research papers, patents, and technical documentation. Extract methods, equations, assumptions, and conclusions with traceable links to original sources.", deliverable: "Annotated literature review · bibliography · comparison matrix" },
   { number: "02", status: "PILOT-READY", statusClass: "border-emerald-300/25 bg-emerald-300/[.06] text-emerald-200", title: "Electronic Component Intelligence", body: "Identify and compare components against electrical, RF, frequency, power, noise, and availability requirements. Review datasheets, constraints, models, and possible alternatives.", deliverable: "Component shortlist · parameter matrix · datasheet links" },
@@ -106,6 +108,8 @@ export default function Home() {
           ].map(([title, body]) => <div key={title} className="rounded-2xl border border-white/10 bg-white/[.025] p-5"><p className="text-sm font-semibold text-cyan-200">{title}</p><p className="mt-2 text-sm text-slate-400">{body}</p></div>)}
         </div>
       </section>
+
+      <RFWorkflowDemo />
 
       <section id="modules" className="border-t border-white/10 px-6 py-24">
         <div className="mx-auto max-w-6xl">
