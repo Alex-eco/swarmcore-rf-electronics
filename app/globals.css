@@ -28,3 +28,7 @@ a{text-decoration:none;color:inherit}
 @keyframes dot-pulse{0%,100%{opacity:.65;scale:.88}50%{opacity:1;scale:1.12}}
 @keyframes task-cycle{0%,10%,100%{opacity:0;transform:translateY(4px)}18%,58%{opacity:1;transform:translateY(0)}70%{opacity:0;transform:translateY(-3px)}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+.rf-progress{width:100%;transform-origin:left;animation:rf-progress-cycle 3.2s linear both}
+@keyframes rf-progress-cycle{from{transform:scaleX(.04);opacity:.6}to{transform:scaleX(1);opacity:1}}
+@media(prefers-reduced-motion:reduce){.rf-progress{animation:none}}
