@@ -41,6 +41,26 @@ export default function RFWorkflowDemo() {
           <button type="button" onClick={() => setPlaying((v) => !v)} className="rounded-full border border-cyan-200/25 px-4 py-2 text-sm text-cyan-100 hover:bg-cyan-200/10" aria-pressed={playing}>{playing ? "Pause animation Ⅱ" : "Play animation ▶"}</button>
         </div>
 
+        <div className="mt-8 overflow-hidden rounded-2xl border border-cyan-300/20 bg-[#080d17]">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 px-5 py-4 sm:px-6">
+            <div>
+              <p className="font-mono text-[10px] tracking-[.18em] text-cyan-300">PRODUCT WALKTHROUGH</p>
+              <h3 className="mt-1 text-lg font-semibold text-white">See the SwarmCore workflow in action</h3>
+            </div>
+            <a href="/demo/swarmcore1.mp4" target="_blank" rel="noreferrer" className="text-sm text-cyan-200 underline decoration-cyan-200/30 underline-offset-4 hover:text-white">Open video ↗</a>
+          </div>
+          <video
+            className="block max-h-[680px] w-full bg-black"
+            controls
+            playsInline
+            preload="metadata"
+            aria-label="SwarmCore RF and Electronics product demo"
+          >
+            <source src="/demo/swarmcore1.mp4" type="video/mp4" />
+            Your browser does not support HTML video. <a href="/demo/swarmcore1.mp4">Open the product demo video</a>.
+          </video>
+        </div>
+
         <div className="mt-10 grid gap-5 lg:grid-cols-[.82fr_1.18fr]">
           <div className="rounded-2xl border border-white/10 bg-[#090f1c] p-5 sm:p-6">
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
