@@ -38,6 +38,7 @@ export default function Home() {
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <a href="#" className="font-mono text-sm font-bold tracking-[.28em]">SWARMCORE</a>
           <div className="hidden gap-7 text-sm text-slate-400 md:flex">
+            <a href="#rf-demo" className="hover:text-white">Product demo</a>
             <a href="#modules" className="hover:text-white">Capabilities</a>
             <a href="#workflow" className="hover:text-white">How it works</a>
             <a href="#pilot" className="hover:text-white">Pilot projects</a>
@@ -59,7 +60,8 @@ export default function Home() {
               A research and engineering automation initiative exploring how coordinated AI agents can accelerate the electronics development lifecycle — from technical research and component intelligence to calculations, CAD workflows, and eventually end-to-end microwave device development.
             </p>
             <div className="mt-9 flex flex-wrap gap-3">
-              <a href="#pilot" className="rounded-full bg-white px-5 py-3 text-sm font-semibold text-black hover:bg-cyan-100">Discuss a pilot</a>
+              <a href="#rf-demo" className="rounded-full bg-white px-5 py-3 text-sm font-semibold text-black hover:bg-cyan-100">Watch product demo <span aria-hidden="true">↗</span></a>
+              <a href="#pilot" className="rounded-full border border-white/15 px-5 py-3 text-sm font-semibold text-white hover:border-white/30">Discuss a pilot</a>
               <a href="#modules" className="rounded-full border border-white/15 px-5 py-3 text-sm font-semibold text-white hover:border-white/30">Explore capabilities</a>
             </div>
             <p className="mt-6 text-xs leading-5 text-slate-500">Evidence-led engineering automation with a human in the loop. Pilot scope and acceptance criteria are agreed for each use case.</p>
