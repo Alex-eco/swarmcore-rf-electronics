@@ -120,7 +120,6 @@ export default function RFWorkflowDemo() {
           <div><p className="font-semibold text-emerald-100">Final deliverables</p><p className="mt-1 text-sm text-slate-400">Link-budget note · component shortlist · reference schematic · BOM · validation checklist</p></div>
           <a href="#pilot" className="rounded-full bg-cyan-200 px-5 py-2.5 text-sm font-semibold text-slate-950 hover:bg-cyan-100">Discuss a pilot ↗</a>
         </div>
-        <p className="mt-4 text-xs leading-5 text-slate-600">This animation illustrates a proposed workflow, not a live engineering calculation or verified component recommendation. RF performance requires qualified review and appropriate simulation and/or measurement.</p>
       </div>
     </section>
   );
