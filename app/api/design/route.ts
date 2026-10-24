@@ -105,12 +105,15 @@ Use 3-5 concise roles. Include units. Clearly mark assumed component specs. Keep
         message = "Gemini model or API endpoint was not found (HTTP 404). Verify the model name and that it is available to this API key.";
       } else if (response.status === 400) {
         message = "Gemini rejected the request (HTTP 400). The model may not support one of the requested generation settings.";
+      } else if (response.status === 503) {
+        message = `Gemini is temporarily unavailable (HTTP 503)${providerMessage ? `: ${providerMessage.slice(0, 240)}` : ". Check Google AI Studio service/model availability and try again later."}`;
       } else {
-        message = `Gemini API returned HTTP ${response.status}. Check Vercel function logs for details, then try again if the service error is temporary.`;
+        message = `Gemini API returned HTTP ${response.status}${providerMessage ? `: ${providerMessage.slice(0, 240)}` : ". Check Vercel function logs for details."}`;
       }
       // Log provider diagnostics, but never log the API key or request headers.
       console.error("Gemini API error", response.status, providerError?.error?.status ?? "unknown", providerMessage?.slice(0, 300) ?? "no provider message");
-      return NextResponse.json({ error: message }, { status: response.status === 429 ? 429 : 502 });
+      const clientStatus = response.status === 429 ? 429 : response.status === 503 ? 503 : 502;
+      return NextResponse.json({ error: message }, { status: clientStatus });
     }
 
     const payload = await response.json() as {
