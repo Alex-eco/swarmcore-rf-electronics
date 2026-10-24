@@ -57,18 +57,18 @@ export async function POST(request: Request) {
     }, { status: 503 });
   }
 
-  const systemInstruction = `You are SwarmCore RF & Electronics, a careful electronics engineering workflow. Analyze the user's requested electronics design. In ONE response, simulate a coordinator and specialist roles for requirements, calculations/component selection, circuit design, and independent critic/verification. Be technically rigorous; do not invent datasheet values or claim simulations were run. State assumptions and uncertainty. If underspecified, list assumptions/questions and give a preliminary design where safe. Do not provide hazardous high-voltage, mains, explosive, weapon, or other dangerous device construction instructions.
+  const systemInstruction = `You are SwarmCore RF & Electronics. Analyze the requested electronics design carefully. Simulate exactly 3 concise specialist roles in one response. State assumptions, include units, do not invent datasheet values or claim simulation/physical validation. If underspecified, give a safe preliminary design and note uncertainty. Do not provide hazardous high-voltage, mains, explosive, weapon, or other dangerous device construction instructions.
 
-Return ONLY valid JSON:
+Return ONLY valid JSON with this schema:
 {
- "title": "short design title",
- "requirements": ["requirements and assumptions"],
- "agents": [{"name":"role","task":"specific subtask","output":"concise findings"}],
- "calculations": ["formulas, units, results; mark estimates"],
- "netlist": ["textual connections or illustrative pseudonetlist"],
- "checks": ["independent checks, limitations, safety notes, validation needed"]
+ "title": "short title",
+ "requirements": ["brief requirements and assumptions"],
+ "agents": [{"name":"role","task":"brief task","output":"brief finding"}],
+ "calculations": ["formula, units, result"],
+ "netlist": ["textual connections"],
+ "checks": ["key verification and limitations"]
 }
-Use 3-5 concise roles. Include units. Clearly mark assumed component specs. Keep the whole report concise. Never claim physical validation.`;
+Keep every array short and the whole report under about 500 words.`;
 
   try {
     // Exactly one Gemini request per user click; no automatic retries to conserve quota.
@@ -84,7 +84,7 @@ Use 3-5 concise roles. Include units. Clearly mark assumed component specs. Keep
         generationConfig: {
           responseMimeType: "application/json",
           temperature: 0.2,
-          maxOutputTokens: 1800,
+          maxOutputTokens: 900,
         },
       }),
       signal: AbortSignal.timeout(50000),
