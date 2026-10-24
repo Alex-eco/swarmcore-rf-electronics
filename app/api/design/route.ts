@@ -124,7 +124,7 @@ Use 3-5 concise roles. Include units. Clearly mark assumed component specs. Keep
     if (!text) {
       const reason = payload.promptFeedback?.blockReason ?? finishReason ?? "unknown";
       console.error("Gemini returned no text", reason);
-      return NextResponse.json({ error: \`Gemini returned no usable design (reason: \${reason}). Refine the task and try again.\` }, { status: 502 });
+      return NextResponse.json({ error: `Gemini returned no usable design (reason: ${reason}). Refine the task and try again.` }, { status: 502 });
     }
 
     // A MAX_TOKENS finish usually means the JSON was cut off before it could close.
