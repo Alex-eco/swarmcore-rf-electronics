@@ -117,19 +117,46 @@ Use 3-5 concise roles. Include units. Clearly mark assumed component specs. Keep
       candidates?: { content?: { parts?: { text?: string }[] }; finishReason?: string }[];
       promptFeedback?: { blockReason?: string };
     };
-    const text = payload.candidates?.[0]?.content?.parts?.map((part) => part.text ?? "").join("").trim();
+    const candidate = payload.candidates?.[0];
+    const text = candidate?.content?.parts?.map((part) => part.text ?? "").join("").trim();
+    const finishReason = candidate?.finishReason;
+
     if (!text) {
-      const reason = payload.promptFeedback?.blockReason ?? payload.candidates?.[0]?.finishReason;
-      console.error("Gemini returned no text", reason ?? "unknown");
-      return NextResponse.json({ error: "Gemini returned no usable design. Refine the task and try again." }, { status: 502 });
+      const reason = payload.promptFeedback?.blockReason ?? finishReason ?? "unknown";
+      console.error("Gemini returned no text", reason);
+      return NextResponse.json({ error: \`Gemini returned no usable design (reason: \${reason}). Refine the task and try again.\` }, { status: 502 });
     }
+
+    // A MAX_TOKENS finish usually means the JSON was cut off before it could close.
+    if (finishReason === "MAX_TOKENS") {
+      console.error("Gemini response truncated at MAX_TOKENS");
+      return NextResponse.json({
+        error: "Gemini's report was cut off because it reached the output limit. Shorten the design task and run it again.",
+      }, { status: 502 });
+    }
+
+    // Be tolerant of optional Markdown fences or short preambles, while still
+    // validating the final parsed object against the expected report schema.
+    const cleaned = text
+      .replace(/^\uFEFF/, "")
+      .replace(/^\u0060\u0060\u0060(?:json)?\s*/i, "")
+      .replace(/\s*\u0060\u0060\u0060$/, "")
+      .trim();
+    const jsonStart = cleaned.indexOf("{");
+    const jsonEnd = cleaned.lastIndexOf("}");
+    const jsonText = jsonStart >= 0 && jsonEnd > jsonStart
+      ? cleaned.slice(jsonStart, jsonEnd + 1)
+      : cleaned;
 
     let parsed: unknown;
     try {
-      parsed = JSON.parse(text.replace(/^\u0060\u0060\u0060(?:json)?\s*/i, "").replace(/\s*\u0060\u0060\u0060$/, ""));
-    } catch {
-      console.error("Gemini response was not valid JSON");
-      return NextResponse.json({ error: "Gemini returned an invalid report format. Please run the task again." }, { status: 502 });
+      parsed = JSON.parse(jsonText);
+    } catch (error) {
+      const parseMessage = error instanceof Error ? error.message : "unknown parse error";
+      console.error("Gemini response was not valid JSON", finishReason ?? "unknown finish reason", parseMessage.slice(0, 160));
+      return NextResponse.json({
+        error: "Gemini returned a report that was not valid JSON. Try a shorter design task; if it persists, check Vercel function logs.",
+      }, { status: 502 });
     }
 
     if (!isDesignResult(parsed)) {
