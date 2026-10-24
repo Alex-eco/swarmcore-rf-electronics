@@ -1,44 +1,40 @@
-# SwarmCore Design Workbench (prototype)
+# SwarmCore Design Workbench
 
-## Route
+## Routes
 - Landing-page CTA: `Start design`
 - Workbench: `/design`
 - Endpoint: `POST /api/design`
 
+## Required server-side environment variables
+- `DESIGN_PASSWORD`: workbench access password.
+- `GEMINI` (or `GEMINI_API_KEY`): Google Gemini API key. Keep it server-side; never use a `NEXT_PUBLIC_` prefix.
+
+The workbench endpoint runs as a Vercel server function. Environment variables set on a Render service are not automatically visible to Vercel. To use the key already stored on Render, add the same secret value to the Vercel project's environment variables as `GEMINI`, for Production (and Preview if testing preview deployments), then redeploy. Do not commit the key to GitHub or send it in chat.
+
 ## Local setup
-Set the password in the server environment before starting the app:
 
+macOS/Linux:
 ```bash
-# macOS/Linux
-export DESIGN_PASSWORD=alexeco
+export DESIGN_PASSWORD='your-workbench-password'
+export GEMINI='your-gemini-api-key'
 npm run dev
 ```
 
-On Windows PowerShell:
+Windows PowerShell:
 ```powershell
-$env:DESIGN_PASSWORD="alexeco"
+$env:DESIGN_PASSWORD="your-workbench-password"
+$env:GEMINI="your-gemini-api-key"
 npm run dev
 ```
 
-For Vercel, open Project → Settings → Environment Variables and add `DESIGN_PASSWORD` with value `alexeco` for the environments where the workbench should be accessible, then redeploy. Do not put the password in client-side code or commit it to the repository.
+## Current Gemini workflow
+The API route sends the task to `gemini-3.8-flash` using Google's `generateContent` REST endpoint. The model returns a JSON report with requirements, role-based specialist outputs, calculations, a textual netlist/connection notes, and critic checks. The API key is used only by the server. The "agents" are currently simulated as specialist roles within one model request; they are not separate concurrent agents or independent verification services.
 
-## Current demo task
-A 5 V red LED indicator circuit:
-- Assumed LED forward voltage: 2.0 V
-- Target current: about 10 mA
-- Ideal resistor: (5 − 2) / 0.01 = 300 Ω
-- Selected standard value: 330 Ω
-- Estimated current: 3 / 330 = 9.1 mA
-- Estimated resistor dissipation: about 27 mW
-
-The current endpoint is a deterministic baseline that makes the orchestration steps visible. It is not a live Gemini integration and currently returns the reference solution even when the user enters a different task; the entered task is received and displayed as the request context only. Do not present this as autonomous general-purpose design yet.
-
-## Planned next steps
-1. Replace the fixed result with a task classifier and structured requirements extraction.
-2. Implement agent interfaces with explicit inputs/outputs and orchestrator validation.
-3. Add a real model provider behind a server-side API key (Gemini API availability/pricing/limits to be checked at implementation time).
-4. Add EDA export (e.g. KiCad-compatible netlist/schematic generation) and automated checks.
-5. Add rate limiting and stronger access control before public use.
+## Important limitations
+- AI calculations and component choices may be wrong; validate datasheets and independently check calculations.
+- The netlist is textual output, not a validated SPICE netlist, CAD-generated schematic, or PCB layout.
+- The current prototype has no user rate limiting or persistent job queue. Keep access restricted while testing.
+- Gemini quota, model availability, and API access depend on the Google AI project/key settings.
 
 ## Engineering disclaimer
-This is an educational reference design. Check the selected LED datasheet and validate the circuit before assembly. AI or rule-based output is not a substitute for engineering review.
+This is a prototype for preliminary design exploration. Do not use generated output as a substitute for simulation, datasheet checks, safety analysis, or qualified engineering review.
