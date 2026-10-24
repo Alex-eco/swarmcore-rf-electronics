@@ -41,8 +41,8 @@ export default function DesignWorkbench() {
       <section className="mt-8 rounded-2xl border border-white/10 bg-white/[.025] p-5 sm:p-7">
         {!authenticated && <div className="mb-5"><label className="mb-2 block text-sm text-slate-300" htmlFor="password">Access password</label><input id="password" type="password" value={password} onChange={e=>setPassword(e.target.value)} className="w-full max-w-sm rounded-xl border border-white/15 bg-black/30 px-4 py-3 outline-none focus:border-cyan-200" placeholder="Enter workbench password" autoComplete="current-password" /></div>}
         <label className="mb-2 block text-sm text-slate-300" htmlFor="task">Describe the electronics task</label>
-        <textarea id="task" value={task} onChange={e=>setTask(e.target.value)} rows={4} maxLength={5000} className="w-full rounded-xl border border-white/15 bg-black/30 px-4 py-3 leading-6 outline-none focus:border-cyan-200" />
-        <div className="mt-2 text-right text-xs text-slate-500">{task.length}/5000</div>
+        <textarea id="task" value={task} onChange={e=>setTask(e.target.value)} rows={4} maxLength={3000} className="w-full rounded-xl border border-white/15 bg-black/30 px-4 py-3 leading-6 outline-none focus:border-cyan-200" />
+        <div className="mt-2 text-right text-xs text-slate-500">{task.length}/3000</div>
         <div className="mt-4 flex flex-wrap items-center gap-3"><button disabled={busy || !password.trim() || !task.trim()} onClick={runDesign} className="rounded-full bg-cyan-200 px-6 py-3 text-sm font-semibold text-slate-950 hover:bg-cyan-100 disabled:cursor-not-allowed disabled:opacity-50">{busy ? "Gemini agents running…" : "Run agent workflow →"}</button><button onClick={()=>{setTask("Design a 5 V LED indicator circuit. Use a red LED with a forward voltage of about 2.0 V and target current around 10 mA. Provide calculations and a readable schematic.");setResult(null);setModel("");setError("");}} className="rounded-full border border-white/15 px-5 py-3 text-sm text-slate-300 hover:border-white/30">Load reference task</button></div>
         {error && <p role="alert" className="mt-4 rounded-xl border border-red-300/20 bg-red-300/5 p-3 text-sm text-red-200">{error}</p>}
       </section>
@@ -56,7 +56,7 @@ export default function DesignWorkbench() {
         <article className="rounded-2xl border border-white/10 p-5"><h3 className="text-lg font-semibold">Generated netlist / connection notes</h3><pre className="mt-4 min-h-36 overflow-x-auto whitespace-pre-wrap rounded-xl bg-black/30 p-4 text-sm text-cyan-100">{result.netlist.join("\n") || "No netlist returned. Ask Gemini for explicit component connections."}</pre><p className="mt-3 text-xs leading-5 text-slate-500">Textual proposal only. This is not a CAD-generated schematic, SPICE-validated netlist, or PCB layout.</p></article></section>
         <section className="rounded-2xl border border-white/10 p-5"><h3 className="text-lg font-semibold">Critic / verification agent</h3><ul className="mt-3 space-y-2 text-sm leading-6 text-slate-300">{result.checks.map((x,i)=><li key={i}>✓ {x}</li>)}</ul></section>
       </div>}
-      <p className="mt-8 text-xs leading-5 text-slate-600">Prototype status: live model-generated design reports. Outputs may contain errors and are not a substitute for simulation, datasheet checks, or qualified engineering review.</p>
+      <p className="mt-8 text-xs leading-5 text-slate-600">Quota-aware prototype: one Gemini request per click, capped prompt and response length, and no automatic retries. Free-tier limits vary by model and Google AI project; when quota is exhausted, wait for reset. Outputs may contain errors and are not a substitute for simulation, datasheet checks, or qualified engineering review.</p>
     </div>
   </main>;
 }
