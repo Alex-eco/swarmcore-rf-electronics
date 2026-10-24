@@ -93,14 +93,24 @@ Use 3-5 concise roles. Include units. Clearly mark assumed component specs. Keep
 
     if (!response.ok) {
       const providerError = await response.json().catch(() => null) as { error?: { message?: string; status?: string } } | null;
-      const status = response.status === 429 ? 429 : 502;
-      const message = response.status === 429
-        ? "Gemini free-tier quota or rate limit reached. No automatic retry was made. Check your quota in Google AI Studio and try again after it resets."
-        : response.status === 400 || response.status === 403
-          ? "Gemini rejected the request. Check the API key and Gemini API access in Google AI Studio."
-          : "Gemini could not complete the design request. Please try again later.";
-      console.error("Gemini API error", response.status, providerError?.error?.status ?? "unknown");
-      return NextResponse.json({ error: message }, { status });
+      const providerMessage = providerError?.error?.message;
+      let message: string;
+      if (response.status === 429) {
+        message = "Gemini quota or rate limit reached (HTTP 429). Check the model quota in Google AI Studio and try again after it resets.";
+      } else if (response.status === 401) {
+        message = "Gemini rejected the API key (HTTP 401). Check that Vercel's GEMINI environment variable contains a valid key for this project, then redeploy.";
+      } else if (response.status === 403) {
+        message = "Gemini access was denied (HTTP 403). Check API access, project restrictions, and billing/quota eligibility in Google AI Studio.";
+      } else if (response.status === 404) {
+        message = "Gemini model or API endpoint was not found (HTTP 404). Verify the model name and that it is available to this API key.";
+      } else if (response.status === 400) {
+        message = "Gemini rejected the request (HTTP 400). The model may not support one of the requested generation settings.";
+      } else {
+        message = `Gemini API returned HTTP ${response.status}. Check Vercel function logs for details, then try again if the service error is temporary.`;
+      }
+      // Log provider diagnostics, but never log the API key or request headers.
+      console.error("Gemini API error", response.status, providerError?.error?.status ?? "unknown", providerMessage?.slice(0, 300) ?? "no provider message");
+      return NextResponse.json({ error: message }, { status: response.status === 429 ? 429 : 502 });
     }
 
     const payload = await response.json() as {
