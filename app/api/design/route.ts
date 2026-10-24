@@ -46,30 +46,32 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Incorrect password." }, { status: 401 });
   }
 
-  const task = typeof body.task === "string" ? body.task.trim().slice(0, 5000) : "";
+  // Keep prompts bounded to reduce token consumption on the free API tier.
+  const task = typeof body.task === "string" ? body.task.trim().slice(0, 3000) : "";
   if (!task) return NextResponse.json({ error: "Please describe the design task." }, { status: 400 });
 
-  // Render environment variables are not available inside Vercel functions.
-  // Set GEMINI in the Vercel project environment as well (or use GEMINI_API_KEY).
   const apiKey = process.env.GEMINI || process.env.GEMINI_API_KEY;
   if (!apiKey) {
     return NextResponse.json({
-      error: "Gemini is not configured on Vercel. Add the existing API key as the server-side environment variable GEMINI, then redeploy.",
+      error: "Gemini is not configured on Vercel. Add the API key as the server-side environment variable GEMINI, then redeploy.",
     }, { status: 503 });
   }
 
-  const systemInstruction = `You are SwarmCore RF & Electronics, a careful electronics engineering multi-agent workflow. Analyze the user's requested electronics design. Simulate a coordinator that delegates to distinct specialist roles: requirements, calculations/component selection, circuit design, and independent critic/verification. Be technically rigorous; do not invent datasheet values or claim simulations were run. State assumptions and uncertainty explicitly. If the task is underspecified, list assumptions and/or questions while still giving a preliminary design where safe. Do not provide hazardous high-voltage, mains, explosive, weapon, or other dangerous device construction instructions. Output ONLY valid JSON matching this schema:
+  const systemInstruction = `You are SwarmCore RF & Electronics, a careful electronics engineering workflow. Analyze the user's requested electronics design. In ONE response, simulate a coordinator and specialist roles for requirements, calculations/component selection, circuit design, and independent critic/verification. Be technically rigorous; do not invent datasheet values or claim simulations were run. State assumptions and uncertainty. If underspecified, list assumptions/questions and give a preliminary design where safe. Do not provide hazardous high-voltage, mains, explosive, weapon, or other dangerous device construction instructions.
+
+Return ONLY valid JSON:
 {
  "title": "short design title",
- "requirements": ["extracted requirements and explicit assumptions"],
- "agents": [{"name":"Orchestrator or specialist role","task":"specific subtask","output":"concise findings"}],
- "calculations": ["show formulas, units, and results; mark estimates"],
- "netlist": ["textual connection list or pseudonetlist; state if illustrative"],
- "checks": ["independent checks, limitations, safety notes, and items to validate"]
+ "requirements": ["requirements and assumptions"],
+ "agents": [{"name":"role","task":"specific subtask","output":"concise findings"}],
+ "calculations": ["formulas, units, results; mark estimates"],
+ "netlist": ["textual connections or illustrative pseudonetlist"],
+ "checks": ["independent checks, limitations, safety notes, validation needed"]
 }
-Use 3-6 agents. Include units. If a numeric answer depends on component specs, clearly mark assumed values and request datasheet confirmation. Keep output concise but useful. Never claim physical validation.`;
+Use 3-5 concise roles. Include units. Clearly mark assumed component specs. Keep the whole report concise. Never claim physical validation.`;
 
   try {
+    // Exactly one Gemini request per user click; no automatic retries to conserve quota.
     const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent", {
       method: "POST",
       headers: {
@@ -82,7 +84,7 @@ Use 3-6 agents. Include units. If a numeric answer depends on component specs, c
         generationConfig: {
           responseMimeType: "application/json",
           temperature: 0.2,
-          maxOutputTokens: 5000,
+          maxOutputTokens: 2500,
         },
       }),
       signal: AbortSignal.timeout(50000),
@@ -93,10 +95,10 @@ Use 3-6 agents. Include units. If a numeric answer depends on component specs, c
       const providerError = await response.json().catch(() => null) as { error?: { message?: string; status?: string } } | null;
       const status = response.status === 429 ? 429 : 502;
       const message = response.status === 429
-        ? "Gemini rate limit or quota reached. Please wait and try again."
+        ? "Gemini free-tier quota or rate limit reached. No automatic retry was made. Check your quota in Google AI Studio and try again after it resets."
         : response.status === 400 || response.status === 403
-          ? "Gemini rejected the request. Check that the API key is valid and has Gemini API access enabled."
-          : "Gemini could not complete the design request. Please try again.";
+          ? "Gemini rejected the request. Check the API key and Gemini API access in Google AI Studio."
+          : "Gemini could not complete the design request. Please try again later.";
       console.error("Gemini API error", response.status, providerError?.error?.status ?? "unknown");
       return NextResponse.json({ error: message }, { status });
     }
@@ -109,7 +111,7 @@ Use 3-6 agents. Include units. If a numeric answer depends on component specs, c
     if (!text) {
       const reason = payload.promptFeedback?.blockReason ?? payload.candidates?.[0]?.finishReason;
       console.error("Gemini returned no text", reason ?? "unknown");
-      return NextResponse.json({ error: "Gemini returned no usable design. Please refine the task and try again." }, { status: 502 });
+      return NextResponse.json({ error: "Gemini returned no usable design. Refine the task and try again." }, { status: 502 });
     }
 
     let parsed: unknown;
