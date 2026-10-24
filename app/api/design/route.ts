@@ -72,7 +72,7 @@ Keep every array short and the whole report under about 500 words.`;
 
   try {
     // Exactly one Gemini request per user click; no automatic retries to conserve quota.
-    const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent", {
+    const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -167,7 +167,7 @@ Keep every array short and the whole report under about 500 words.`;
       return NextResponse.json({ error: "Gemini returned an incomplete report. Please run the task again." }, { status: 502 });
     }
 
-    return NextResponse.json({ result: parsed, model: "gemini-3.8-flash" }, { headers: { "Cache-Control": "no-store" } });
+    return NextResponse.json({ result: parsed, model: "gemini-3.1-flash-lite" }, { headers: { "Cache-Control": "no-store" } });
   } catch (error) {
     const errorName = error instanceof Error ? error.name : "unknown";
     console.error("Gemini request failed", errorName);
