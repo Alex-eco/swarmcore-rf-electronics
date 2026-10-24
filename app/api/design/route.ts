@@ -84,7 +84,7 @@ Use 3-5 concise roles. Include units. Clearly mark assumed component specs. Keep
         generationConfig: {
           responseMimeType: "application/json",
           temperature: 0.2,
-          maxOutputTokens: 2500,
+          maxOutputTokens: 1800,
         },
       }),
       signal: AbortSignal.timeout(50000),
@@ -166,7 +166,13 @@ Use 3-5 concise roles. Include units. Clearly mark assumed component specs. Keep
 
     return NextResponse.json({ result: parsed, model: "gemini-3.8-flash" }, { headers: { "Cache-Control": "no-store" } });
   } catch (error) {
-    console.error("Gemini request failed", error instanceof Error ? error.name : "unknown");
+    const errorName = error instanceof Error ? error.name : "unknown";
+    console.error("Gemini request failed", errorName);
+    if (errorName === "TimeoutError" || errorName === "AbortError") {
+      return NextResponse.json({
+        error: "Gemini took too long to generate the report. Try a shorter design task with fewer requirements; no automatic retry was made.",
+      }, { status: 504 });
+    }
     return NextResponse.json({ error: "Could not reach Gemini. Check connectivity and try again." }, { status: 502 });
   }
 }
