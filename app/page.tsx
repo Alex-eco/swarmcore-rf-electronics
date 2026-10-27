@@ -54,10 +54,10 @@ export default function Home() {
           <div>
             <p className="mb-5 font-mono text-xs tracking-[.16em] text-cyan-300">SWARMCORE RF & ELECTRONICS · MULTI-AGENT ENGINEERING</p>
             <h1 className="max-w-3xl text-5xl font-semibold leading-[1.02] tracking-[-.04em] sm:text-7xl">
-              AI Agents for <span className="text-cyan-200">Autonomous RF & Electronics Engineering Development</span>
+              AI-Powered <span className="text-cyan-200">Resilient Wireless Link Design</span>
             </h1>
             <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-400">
-              A research and engineering automation initiative exploring how coordinated AI agents can accelerate the electronics development lifecycle — from technical research and component intelligence to calculations, CAD workflows, and eventually end-to-end microwave device development.
+              SwarmCore is an AI-powered engineering platform that autonomously designs and optimizes resilient wireless communication links to maintain reliable connectivity under challenging propagation conditions and interference.
             </p>
             <div className="mt-9 flex flex-wrap gap-3">
               <a href="#rf-demo" className="rounded-full bg-white px-5 py-3 text-sm font-semibold text-black hover:bg-cyan-100">Watch product demo <span aria-hidden="true">↗</span></a>
