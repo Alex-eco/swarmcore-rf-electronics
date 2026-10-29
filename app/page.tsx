@@ -1,27 +1,27 @@
 "use client";
 
-import RFWorkflowDemo from "./components/RFWorkflowDemo";
+
 
 const modules = [
-  { number: "01", status: "PILOT-READY", statusClass: "border-emerald-300/25 bg-emerald-300/[.06] text-emerald-200", title: "Scientific Research & Technical Intelligence", body: "Find and synthesize relevant research papers, patents, and technical documentation. Extract methods, equations, assumptions, and conclusions with traceable links to original sources.", deliverable: "Annotated literature review · bibliography · comparison matrix" },
-  { number: "02", status: "PILOT-READY", statusClass: "border-emerald-300/25 bg-emerald-300/[.06] text-emerald-200", title: "Electronic Component Intelligence", body: "Identify and compare components against electrical, RF, frequency, power, noise, and availability requirements. Review datasheets, constraints, models, and possible alternatives.", deliverable: "Component shortlist · parameter matrix · datasheet links" },
-  { number: "03", status: "SCOPED PILOT", statusClass: "border-cyan-300/25 bg-cyan-300/[.06] text-cyan-200", title: "Engineering Calculations & Design Options", body: "Prepare preliminary calculations, compare circuit and system-level options, and turn assumptions into testable engineering hypotheses.", deliverable: "Calculation note · input assumptions · validation plan" },
-  { number: "04", status: "PROTOTYPE / INTEGRATION", statusClass: "border-violet-300/25 bg-violet-300/[.06] text-violet-200", title: "Engineering CAD / EDA Workflow Automation", body: "Develop scripts and agent workflows for repeatable operations in a selected engineering environment: model setup, simulation runs, and results collection, subject to supported APIs and available licenses.", deliverable: "Agreed workflow · automation script · test report" },
-  { number: "05", status: "IN DEVELOPMENT", statusClass: "border-amber-300/25 bg-amber-300/[.06] text-amber-200", title: "End-to-End Microwave Device Development", body: "Long-term vision: an agent-assisted engineering loop from requirements and component selection through modelling, optimization, and engineering documentation. Device readiness must be demonstrated through appropriate simulation, engineering review, and measurement.", deliverable: "Roadmap objective — not represented as an available finished capability" },
+  { number: "01", status: "PILOT-READY", statusClass: "border-emerald-300/25 bg-emerald-300/[.06] text-emerald-200", title: "Component & Datasheet Research", body: "Search manufacturer datasheets and technical documentation to identify candidate replacements for obsolete, unavailable, or costly electronic components.", deliverable: "Source-linked component shortlist · datasheet comparison" },
+  { number: "02", status: "PILOT-READY", statusClass: "border-emerald-300/25 bg-emerald-300/[.06] text-emerald-200", title: "Component Replacement Intelligence", body: "Compare candidate replacements against electrical parameters, package, pinout, operating limits, and availability. Flag mismatches and information that needs engineering review.", deliverable: "Alternative parts · compatibility matrix · datasheet links" },
+  { number: "03", status: "SCOPED PILOT", statusClass: "border-cyan-300/25 bg-cyan-300/[.06] text-cyan-200", title: "Compatibility & Redesign Impact Assessment", body: "Assess potential impact of a component change on the existing design, identify parameter conflicts, and outline circuit changes for engineer review.", deliverable: "Compatibility findings · identified risks · review checklist" },
+  { number: "04", status: "PROTOTYPE / INTEGRATION", statusClass: "border-violet-300/25 bg-violet-300/[.06] text-violet-200", title: "BOM Risk & Obsolescence Screening", body: "Screen a bill of materials for obsolete, at-risk, or hard-to-source parts and prioritize items for replacement research. Coverage depends on available supplier and lifecycle data.", deliverable: "Prioritized BOM risk report · research queue" },
+  { number: "05", status: "IN DEVELOPMENT", statusClass: "border-amber-300/25 bg-amber-300/[.06] text-amber-200", title: "Board Redesign Support", body: "Long-term direction: connect component research with design-file analysis, circuit simulation, and engineering validation. Full board redesign is a roadmap goal, not a current finished capability.", deliverable: "Roadmap objective — requires engineering validation" },
 ];
 
 const workflow = [
-  ["01", "Define the engineering task", "Agree on requirements, constraints, available tools, and measurable acceptance criteria."],
-  ["02", "Gather traceable evidence", "Agents organize research, component data, and input parameters with source links."],
-  ["03", "Generate options and artifacts", "Prepare comparable approaches, calculations, and scripts with explicit assumptions."],
-  ["04", "Engineer-led validation", "A qualified engineer reviews critical decisions; simulation and measurement are not replaced by an AI answer."],
+  ["01", "Import the component list", "Start with a BOM, target component, or an obsolete-part notice and define constraints such as package, voltage, current, temperature, and cost."],
+  ["02", "Research replacement candidates", "Collect manufacturer datasheets, lifecycle information, and supplier evidence with traceable source links."],
+  ["03", "Compare technical compatibility", "Compare key electrical and mechanical parameters, pinout, package, and operating limits; clearly flag unknowns."],
+  ["04", "Prepare an engineer-review report", "Deliver ranked alternatives, risks, possible circuit changes, and checks for an engineer to validate before adoption."],
 ];
 
 const examples = [
-  "Find component alternatives by frequency, power, noise, and availability.",
-  "Review literature for a specified antenna, filter, or RF architecture.",
-  "Prepare a preliminary calculation and validation plan for an RF subsystem.",
-  "Automate a repeatable step in an existing engineering CAD / EDA workflow.",
+  "Find replacement candidates for obsolete or unavailable components and compare their datasheets.",
+  "Check package, pinout, voltage, current, temperature range, and key electrical parameters.",
+  "Identify datasheet mismatches and missing information before a replacement is approved.",
+  "Generate a prioritized component-risk report from a bill of materials.",
 ];
 
 export default function Home() {
@@ -44,7 +44,7 @@ export default function Home() {
             <a href="#pilot" className="hover:text-white">Pilot projects</a>
             <a href="#contact" className="hover:text-white">Contact</a>
           </div>
-          <span className="rounded-full border border-cyan-300/30 bg-cyan-300/5 px-3 py-1 text-[10px] font-semibold tracking-[.12em] text-cyan-200">RF · ELECTRONICS AI</span>
+          <span className="rounded-full border border-cyan-300/30 bg-cyan-300/5 px-3 py-1 text-[10px] font-semibold tracking-[.12em] text-cyan-200">ELECTRONICS COMPONENT INTELLIGENCE</span>
         </div>
       </nav>
 
@@ -52,20 +52,20 @@ export default function Home() {
         <div className="absolute left-1/2 top-20 h-96 w-96 -translate-x-1/2 rounded-full bg-cyan-400/5 blur-3xl" />
         <div className="mx-auto grid max-w-6xl items-center gap-14 lg:grid-cols-[1.05fr_.95fr]">
           <div>
-            <p className="mb-5 font-mono text-xs tracking-[.16em] text-cyan-300">SWARMCORE RF & ELECTRONICS · MULTI-AGENT ENGINEERING</p>
+            <p className="mb-5 font-mono text-xs tracking-[.16em] text-cyan-300">SWARMCORE · COMPONENT REPLACEMENT INTELLIGENCE</p>
             <h1 className="max-w-3xl text-5xl font-semibold leading-[1.02] tracking-[-.04em] sm:text-7xl">
-              AI-Powered <span className="text-cyan-200">Resilient Wireless Link Design</span>
+              AI Agents for <span className="text-cyan-200">Electronic Component Replacement</span>
             </h1>
             <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-400">
-              SwarmCore is an AI-powered engineering platform that autonomously designs and optimizes resilient wireless communication links to maintain reliable connectivity under challenging propagation conditions and interference.
+              SwarmCore helps electronics engineering teams research replacement components, compare datasheets, assess compatibility risks, and understand the potential impact of part changes on existing designs.
             </p>
             <div className="mt-9 flex flex-wrap gap-3">
-              <a href="#rf-demo" className="rounded-full bg-white px-5 py-3 text-sm font-semibold text-black hover:bg-cyan-100">Watch product demo <span aria-hidden="true">↗</span></a>
+              <a href="#rf-demo" className="rounded-full bg-white px-5 py-3 text-sm font-semibold text-black hover:bg-cyan-100">See how it works <span aria-hidden="true">↗</span></a>
               <a href="#pilot" className="rounded-full border border-white/15 px-5 py-3 text-sm font-semibold text-white hover:border-white/30">Discuss a pilot</a>
               <a href="#modules" className="rounded-full border border-white/15 px-5 py-3 text-sm font-semibold text-white hover:border-white/30">Explore capabilities</a>
               <a href="/design" className="rounded-full border border-cyan-200/40 bg-cyan-200/10 px-5 py-3 text-sm font-semibold text-cyan-100 hover:bg-cyan-200/20">Start design ↗</a>
             </div>
-            <p className="mt-6 text-xs leading-5 text-slate-500">Evidence-led engineering automation with a human in the loop. Pilot scope and acceptance criteria are agreed for each use case.</p>
+            <p className="mt-6 text-xs leading-5 text-slate-500">Engineering recommendations are evidence-led and designed for engineer review. Final component selection and design approval remain with qualified engineers.</p>
           </div>
 
           <div className="glow relative h-[390px] overflow-hidden rounded-3xl border border-white/10 bg-[#080c13]/80 sm:h-[430px]">
@@ -73,7 +73,7 @@ export default function Home() {
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(34,211,238,.09),transparent_48%)]" />
             <div className="relative h-full w-full">
               <div className="absolute left-1/2 top-1/2 z-10 flex h-28 w-28 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-cyan-200/40 bg-[#08121d]/90 shadow-[0_0_70px_rgba(125,211,252,.18)]">
-                <div className="text-center font-mono text-[10px] leading-5 tracking-[.22em] text-cyan-100">SWARM<br/>CORE<br/><span className="text-[8px] tracking-[.12em]">RF / EE</span></div>
+                <div className="text-center font-mono text-[10px] leading-5 tracking-[.22em] text-cyan-100">SWARM<br/>CORE<br/><span className="text-[8px] tracking-[.12em]">BOM / EDA</span></div>
               </div>
               <div className="network-orbit network-orbit-one" />
               <div className="network-orbit network-orbit-two" />
@@ -94,8 +94,8 @@ export default function Home() {
                 </div>
               ))}
               <div className="absolute bottom-5 left-5 right-5 flex items-center justify-between border-t border-white/10 pt-4 font-mono text-[9px] tracking-[.1em] text-slate-500">
-                <span className="flex items-center gap-2"><span className="live-indicator" /> MULTI-AGENT WORKFLOW</span>
-                <span>RESEARCH / DESIGN / VALIDATE</span>
+                <span className="flex items-center gap-2"><span className="live-indicator" /> COMPONENT RESEARCH WORKFLOW</span>
+                <span>FIND / COMPARE / REVIEW</span>
               </div>
             </div>
           </div>
@@ -106,19 +106,19 @@ export default function Home() {
         <div className="mx-auto grid max-w-6xl gap-4 sm:grid-cols-3">
           {[
             ["Research", "Traceable sources and technical evidence"],
-            ["Engineering", "Calculations and workflow automation"],
+            ["Compatibility", "Pinout, package and parameter checks"],
             ["Verification", "Explicit assumptions and engineer review"],
           ].map(([title, body]) => <div key={title} className="rounded-2xl border border-white/10 bg-white/[.025] p-5"><p className="text-sm font-semibold text-cyan-200">{title}</p><p className="mt-2 text-sm text-slate-400">{body}</p></div>)}
         </div>
       </section>
 
-      <RFWorkflowDemo />
+      <section id="rf-demo" className="border-t border-white/10 px-6 py-16"><div className="mx-auto max-w-6xl"><p className="font-mono text-xs tracking-[.22em] text-cyan-300">REPLACEMENT WORKFLOW</p><h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">From an unavailable part to a reviewable shortlist.</h2><div className="mt-8 grid gap-3 sm:grid-cols-4">{[["01","Identify","Start with an obsolete part or BOM entry."],["02","Research","Gather datasheets and lifecycle evidence."],["03","Compare","Check package, pinout, ratings, and limits."],["04","Review","Flag risks and prepare engineer-review notes."]].map(([n,t,b])=><div key={n} className="rounded-2xl border border-white/10 bg-white/[.025] p-5"><span className="font-mono text-xs text-cyan-300">{n}</span><h3 className="mt-3 font-semibold">{t}</h3><p className="mt-2 text-sm leading-6 text-slate-400">{b}</p></div>)}</div><p className="mt-5 text-xs leading-5 text-slate-500">This describes the target workflow; actual coverage and compatibility depend on available component data and engineering review.</p></div></section>
 
       <section id="modules" className="border-t border-white/10 px-6 py-24">
         <div className="mx-auto max-w-6xl">
           <p className="font-mono text-xs tracking-[.22em] text-cyan-300">CAPABILITIES & ROADMAP</p>
-          <h2 className="mt-4 max-w-3xl text-4xl font-semibold tracking-tight sm:text-5xl">From engineering intelligence to automated design.</h2>
-          <p className="mt-5 max-w-2xl leading-7 text-slate-400">We start with tasks that can produce a reviewable result quickly. Deeper CAD integration and end-to-end development are being explored in stages.</p>
+          <h2 className="mt-4 max-w-3xl text-4xl font-semibold tracking-tight sm:text-5xl">From component research to replacement decisions.</h2>
+          <p className="mt-5 max-w-2xl leading-7 text-slate-400">Start with traceable component research and compatibility reports. Deeper design-file analysis and simulation-based validation can be added as the workflow matures.</p>
           <div className="mt-12 grid gap-4 lg:grid-cols-2">
             {modules.map((module) => (
               <article key={module.number} className={`flex flex-col rounded-2xl border p-6 transition hover:-translate-y-1 hover:border-cyan-200/25 ${module.number === "05" ? "border-amber-300/20 bg-amber-300/[.025] lg:col-span-2" : "border-white/10 bg-white/[.025]"}`}>
@@ -168,17 +168,17 @@ export default function Home() {
             <div>
               <p className="font-mono text-xs tracking-[.22em] text-cyan-300">ENGINEERING PILOTS</p>
               <h2 className="mt-4 text-4xl font-semibold tracking-tight">Let's test it on a real task.</h2>
-              <p className="mt-4 max-w-xl leading-7 text-slate-400">Bring a repeatable task from electronics or RF development. We'll define the inputs, quality criteria, automation boundaries, and deliverable together.</p>
+              <p className="mt-4 max-w-xl leading-7 text-slate-400">Bring a bill of materials or a real obsolete-component case. We’ll agree on constraints, evidence sources, review criteria, and a measurable pilot deliverable.</p>
             </div>
             <div className="rounded-2xl border border-white/10 bg-[#05070b]/50 p-6">
               <p className="text-sm font-semibold">Good candidates for a first pilot</p>
               <ul className="mt-4 space-y-3 text-sm leading-6 text-slate-400">
-                <li>• Component research and comparison</li>
-                <li>• Literature review for an engineering topic</li>
-                <li>• Preliminary calculations and scripts</li>
-                <li>• Automation of one step in a CAD / EDA tool</li>
+                <li>• BOM screening and replacement research</li>
+                <li>• Datasheet comparison and compatibility assessment</li>
+                <li>• Risk assessment and redesign-impact report</li>
+                <li>• Engineer-reviewed recommendations for component substitution</li>
               </ul>
-              <a href="mailto:aiagentquantum@gmail.com?subject=SwarmCore%20RF%20%26%20Electronics%20Pilot" className="mt-7 inline-flex rounded-full bg-white px-6 py-3 text-sm font-semibold text-black hover:bg-cyan-100">Discuss a use case</a>
+              <a href="mailto:aiagentquantum@gmail.com?subject=SwarmCore%20Component%20Replacement%20Pilot" className="mt-7 inline-flex rounded-full bg-white px-6 py-3 text-sm font-semibold text-black hover:bg-cyan-100">Discuss a use case</a>
               <p className="mt-4 text-xs leading-5 text-slate-500">aiagentquantum@gmail.com</p>
             </div>
           </div>
@@ -187,7 +187,7 @@ export default function Home() {
 
       <section id="contact" className="border-t border-white/10 px-6 py-16">
         <div className="mx-auto max-w-6xl flex flex-col justify-between gap-5 sm:flex-row sm:items-center">
-          <div><p className="font-mono text-xs tracking-[.22em] text-cyan-300">SWARMCORE RF & ELECTRONICS</p><p className="mt-2 text-sm text-slate-400">AI agents for engineering research and development automation.</p></div>
+          <div><p className="font-mono text-xs tracking-[.22em] text-cyan-300">SWARMCORE COMPONENT INTELLIGENCE</p><p className="mt-2 text-sm text-slate-400">AI-assisted component replacement research and compatibility assessment.</p></div>
           <a href="mailto:aiagentquantum@gmail.com" className="text-sm text-cyan-200 hover:text-white">aiagentquantum@gmail.com ↗</a>
         </div>
       </section>
@@ -195,7 +195,7 @@ export default function Home() {
       <footer className="border-t border-white/10 px-6 py-8">
         <div className="mx-auto flex max-w-6xl flex-col justify-between gap-3 text-xs text-slate-600 sm:flex-row">
           <span>© 2026 SwarmCore</span>
-          <span>RF & Electronics AI · Research initiative</span>
+          <span>Electronic Component Intelligence · Engineering research initiative</span>
         </div>
         <p className="mx-auto mt-4 max-w-6xl text-[11px] leading-5 text-slate-600">Capability labels describe pilot availability and the current roadmap; they do not certify engineering outcomes. AI-generated outputs require review by a qualified specialist. Electromagnetic performance must be validated using appropriate engineering simulation and, where necessary, physical measurements.</p>
       </footer>
