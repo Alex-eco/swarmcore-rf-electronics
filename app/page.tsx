@@ -44,7 +44,7 @@ export default function Home() {
             <a href="#pilot" className="hover:text-white">Pilot projects</a>
             <a href="#contact" className="hover:text-white">Contact</a>
           </div>
-          <span className="rounded-full border border-cyan-300/30 bg-cyan-300/5 px-3 py-1 text-[10px] font-semibold tracking-[.12em] text-cyan-200">ELECTRONICS COMPONENT INTELLIGENCE</span>
+          <span className="rounded-full border border-cyan-300/30 bg-cyan-300/5 px-3 py-1 text-[10px] font-semibold tracking-[.12em] text-cyan-200">AUTONOMOUS ELECTRONICS ENGINEERING</span>
         </div>
       </nav>
 
@@ -52,12 +52,12 @@ export default function Home() {
         <div className="absolute left-1/2 top-20 h-96 w-96 -translate-x-1/2 rounded-full bg-cyan-400/5 blur-3xl" />
         <div className="mx-auto grid max-w-6xl items-center gap-14 lg:grid-cols-[1.05fr_.95fr]">
           <div>
-            <p className="mb-5 font-mono text-xs tracking-[.16em] text-cyan-300">SWARMCORE · COMPONENT REPLACEMENT INTELLIGENCE</p>
+            <p className="mb-5 font-mono text-xs tracking-[.16em] text-cyan-300">SWARMCORE · AUTONOMOUS ELECTRONICS ENGINEERING</p>
             <h1 className="max-w-3xl text-5xl font-semibold leading-[1.02] tracking-[-.04em] sm:text-7xl">
-              AI Agents for <span className="text-cyan-200">Electronic Component Replacement</span>
+              From <span className="text-cyan-200">Component Intelligence</span> to Autonomous Circuit Redesign
             </h1>
             <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-400">
-              SwarmCore helps electronics engineering teams research replacement components, compare datasheets, assess compatibility risks, and understand the potential impact of part changes on existing designs.
+              SwarmCore uses specialized AI agents to automate electronics engineering workflows. We start with component research, replacement assessment, and engineering validation — and are building towards automated circuit adaptation and, ultimately, autonomous circuit redesign.
             </p>
             <div className="mt-9 flex flex-wrap gap-3">
               <a href="#rf-demo" className="rounded-full bg-white px-5 py-3 text-sm font-semibold text-black hover:bg-cyan-100">See how it works <span aria-hidden="true">↗</span></a>
@@ -102,6 +102,32 @@ export default function Home() {
         </div>
       </section>
 
+      <section id="roadmap" className="border-t border-white/10 bg-[#070a10] px-6 py-20">
+        <div className="mx-auto max-w-6xl">
+          <p className="font-mono text-xs tracking-[.22em] text-cyan-300">THE PRODUCT JOURNEY</p>
+          <h2 className="mt-4 max-w-3xl text-3xl font-semibold tracking-tight sm:text-4xl">A clear path from component intelligence to autonomous circuit redesign.</h2>
+          <p className="mt-4 max-w-2xl leading-7 text-slate-400">Specialized AI agents will progressively take on more of the electronics engineering workflow — from researching individual components to adapting and redesigning complete circuits.</p>
+          <div className="mt-10 grid gap-4 md:grid-cols-4">
+            {[
+              ["01", "Component intelligence", "Research datasheets, compare specifications, identify alternatives, and flag component-level risks.", "INITIAL FOCUS"],
+              ["02", "Circuit adaptation", "Analyze existing schematics and BOMs, assess replacement impact, and propose circuit modifications.", "NEXT"],
+              ["03", "Autonomous circuit redesign", "Redesign circuit sections or complete schematics against engineering requirements, supported by simulation and verification.", "LONG-TERM"],
+              ["04", "Autonomous electronics engineering", "Move from natural-language requirements to optimized circuits and engineering deliverables.", "VISION"],
+            ].map(([number, title, body, stage]) => (
+              <article key={number} className="rounded-2xl border border-white/10 bg-white/[.025] p-5">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="font-mono text-xs text-cyan-300">{number}</span>
+                  <span className="rounded-full border border-white/10 px-2.5 py-1 text-[9px] font-semibold tracking-[.1em] text-slate-400">{stage}</span>
+                </div>
+                <h3 className="mt-5 text-lg font-semibold leading-snug">{title}</h3>
+                <p className="mt-3 text-sm leading-6 text-slate-400">{body}</p>
+              </article>
+            ))}
+          </div>
+          <p className="mt-6 text-xs leading-5 text-slate-500">Roadmap stages are development goals, not claims of current product functionality. Each stage will be validated through engineering benchmarks and real-world use cases.</p>
+        </div>
+      </section>
+
       <section className="border-t border-white/10 px-6 py-12">
         <div className="mx-auto grid max-w-6xl gap-4 sm:grid-cols-3">
           {[
@@ -117,8 +143,8 @@ export default function Home() {
       <section id="modules" className="border-t border-white/10 px-6 py-24">
         <div className="mx-auto max-w-6xl">
           <p className="font-mono text-xs tracking-[.22em] text-cyan-300">CAPABILITIES & ROADMAP</p>
-          <h2 className="mt-4 max-w-3xl text-4xl font-semibold tracking-tight sm:text-5xl">From component research to replacement decisions.</h2>
-          <p className="mt-5 max-w-2xl leading-7 text-slate-400">Start with traceable component research and compatibility reports. Deeper design-file analysis and simulation-based validation can be added as the workflow matures.</p>
+          <h2 className="mt-4 max-w-3xl text-4xl font-semibold tracking-tight sm:text-5xl">From component intelligence to autonomous circuit redesign.</h2>
+          <p className="mt-5 max-w-2xl leading-7 text-slate-400">Our roadmap moves from component-level intelligence to circuit-level engineering. Each stage builds on the previous one; autonomous circuit redesign is our long-term goal, not a current finished capability.</p>
           <div className="mt-12 grid gap-4 lg:grid-cols-2">
             {modules.map((module) => (
               <article key={module.number} className={`flex flex-col rounded-2xl border p-6 transition hover:-translate-y-1 hover:border-cyan-200/25 ${module.number === "05" ? "border-amber-300/20 bg-amber-300/[.025] lg:col-span-2" : "border-white/10 bg-white/[.025]"}`}>
